@@ -1,0 +1,102 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+struct agenda{
+char nome[10];
+int num;
+};
+int count;
+void push(struct agenda *p);
+void pop(struct agenda *p);
+void list(struct agenda *p);
+void search(struct agenda *p);
+
+int main(){
+
+	struct agenda p[100];
+	int x = 9;
+	
+	while(x!=0){
+		printf("Escolha uma opcao: \n0 para sair\n1 para adicionar\n2 para retirar\n3 para listar\n4 para buscar\n");
+		scanf("%d", &x);
+		if(x==1){
+			push(p);
+			x = 9;
+		}
+		else if(x==2){
+			pop(p);
+			x = 9;
+		}
+		else if(x==3){
+			list(p);
+			x = 9;}
+		else if(x==4){
+			search(p);
+			x = 9;}
+	}
+return 0;
+}
+void push(struct agenda *p){
+	printf("Diga o nome da pessoa: ");
+	scanf("%s", p[count].nome);
+	printf("Diga seu numero: ");
+	scanf("%d", &(p[count].num));
+	count += 1;
+}
+void pop(struct agenda *p){
+	
+	if(count == 0){
+		 printf("Empty list... \n\n");
+	}
+	else{
+	char pout[10];
+	int c = 0, y;
+	printf("Diga qual pessoa voce deseja retirar");
+	scanf("%s", pout);
+		while(c < count){
+			y = strcmp(pout, p[c].nome);
+				if(y==0){
+					for(; c<count; c++){
+						strcpy(p[c].nome, p[c+1].nome);
+					}
+				}
+			c++;
+		}
+		count--;
+	}
+}
+void list(struct agenda *p){
+	
+	if(count == 0){
+		 printf("Empty list... \n\n");
+	}
+	else{
+		int x = 0;
+		printf("Os elementos da lista são:\n\n");
+		while(x<count){
+			printf("Nome: %s\nNumero: %d\n\n", p[x].nome, p[x].num);
+			x++;
+		}
+	}
+}
+void search(struct agenda *p){
+	
+	if(count == 0){
+		 printf("Empty list... \n\n");
+	}
+	else{
+		char pessoa[10];
+		int x = 0, z;
+		printf("Diga quem voce deseja buscar");
+		scanf("%s", pessoa);
+		while(x<count){
+			z = strcmp(p[x].nome, pessoa);
+				if(z == 0){
+					printf("Aqui estao as informacoes dessa pessoa:\nNome: %s\nNumero: %d\n\n", p[x].nome, p[x].num);
+					break;
+				}
+			x++;
+		}
+	}
+}
