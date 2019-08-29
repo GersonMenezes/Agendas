@@ -1,0 +1,18 @@
+.caixa{
+	background: blue;
+	border: 12px solid;
+	width: 200px;
+	height: 200px;
+	display: inline-block;
+	padding: 25px;
+	padding-bottom: 10px;
+}
+body{
+	font-size: 40px;
+}
+img{
+	max-width: 90%;
+}
+*{
+	box-sizing: border-box;
+}
