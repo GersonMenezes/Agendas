@@ -25,5 +25,6 @@ int main(){
     printf("The list is: \n %s \n", p);
     p+=10;
     }
+    free(p);
 return 0;
 }
