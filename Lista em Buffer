@@ -1,15 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+//#include <conio.c>
 
-struct Element{
+typedef struct Element{
     int num;
     char name[20];
-} typedef element;
+}  element;
 
 struct pc{
     int ne, count1, count2;
-}
+};
 
 void *pBuffer;
 int *ne, *count1, *count2;
@@ -17,6 +18,7 @@ void appoint();
 void push();
 void pop();
 void list();
+
 
 int main()
 {
@@ -26,16 +28,20 @@ int main()
     *ne = 1;
     
     while(*count1){
-        printf("Choose an option: ");
-        printf("0. EXIT ");
-        printf("1. ADD ");
-        printf("2. REVOME ");
-        printf("3. LIST ");
+        printf("\nChoose an option: \n");
+        printf("0. EXIT \n");
+        printf("1. ADD \n");
+        printf("2. REVOME \n");
+        printf("3. LIST \n");
         scanf("%d", &(*count1));
-        if(*count1 = 0) break;
-        else if(*count1 = 1) push();
-        else if(*count1 = 2) pop();
-        else if(*count1 = 3) list();
+        if(*count1 == 0) break;
+        else if(*count1 == 1) push();
+        else if(*count1 == 2) pop();
+        else if(*count1 == 3) list();
+        else {
+           // textcolor(1);
+            printf("Invalid value\n");
+        }
     }
     free(pBuffer);
     return 0;
@@ -48,7 +54,7 @@ void appoint(){
 void push(){
     *ne += 1;
     element *p;
-    pBuffer = (void*) realloc(pBuffer, sizeof(struct pc) + (sizeof(struct element)*(*ne)));
+    pBuffer = (void*) realloc(pBuffer, sizeof(struct pc) + (sizeof(element)*(*ne)));
     appoint();
     p = (element*) count2 + 1;
     p = p + (sizeof(element)*(*ne-1));
@@ -59,30 +65,41 @@ void push(){
     printf("The element: %s, number: %d was added with sucess...", p->name, p->num);
 }
 void pop(){
+    if(!(*ne-1)) {
+        printf("There's not nothing to remove...\n");
+        return;
+    }
     element *p1, *p2, *auxname;
     *ne -= 1;
     p1 = auxname = p2 = (element*) count2 + 1;
     p1 = p1 + sizeof(element);
-    p2 = p2 + (sizeof(element)*(*ne-1)); // Aponta para o ultimo elemento para move-lo para o lugar do elemento retirado
+    p2 = p2 + (sizeof(element)*(*ne)); // Aponta para o ultimo elemento para move-lo para o lugar do elemento retirado
+    printf("Tell the element to remove: ");
+    scanf("%s", auxname->name);
     
-    for(*count2 = 0; *count2 < (*ne)-1; *count2++){
-        if(strcmp(auname->name, p1->name) == 0){
+    for(*count2 = 0; *count2 < (*ne)-1; (*count2)++){
+        if(strcmp(auxname->name, p1->name) == 0){
             strcpy(p1->name, p2->name);
             *p1 = *p2;
-            pBuffer = (void*) realloc(pBuffer, sizeof(struct pc) + (sizeof(struct element)*(*ne)));
+            pBuffer = (void*) realloc(pBuffer, sizeof(struct pc) + (sizeof(element)*(*ne)));
             appoint();
             break;
         }
         p1 = p1 + sizeof(element);
     }
+    if(*count2 == (*ne)-1) printf("This elements is not in the list \n");
 }
 void list(){
+   if(!(*ne-1)) {
+        printf("Empty list...");
+        return;
+    }
     element *p;
     p =(element*) count2 + 1;
     p = p + sizeof(element);  // Não se pode fazer p + 1 quando p é uma struct
-    printf("The elements are: ");
-    for(*count2 = 0; *count2 < (*ne)-1; *count2++){
-        printf("Name: %s  Numeber: %d", p->name, p->number);
+    printf("The elements are: \n");
+    for(*count2 = 0; (*count2) < (*ne)-1; (*count2)++){
+        printf("Name: %s  Number: %d \n", p->name, p->num);
         p = p + sizeof(element);
     }
 }
