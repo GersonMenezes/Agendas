@@ -44,6 +44,9 @@ int main()
         }
     }
     free(pBuffer);
+    if(pBuffer == NULL){
+        printf("Memoria desalocada");
+    }
     return 0;
 }
 void appoint(){
@@ -80,14 +83,15 @@ void pop(){
     for(*count2 = 0; *count2 < (*ne)-1; (*count2)++){
         if(strcmp(auxname->name, p1->name) == 0){
             strcpy(p1->name, p2->name);
-            *p1 = *p2;
+            p1->num = p2->num;
             pBuffer = (void*) realloc(pBuffer, sizeof(struct pc) + (sizeof(element)*(*ne)));
             appoint();
             break;
         }
         p1 = p1 + sizeof(element);
     }
-    if(*count2 == (*ne)-1) printf("This elements is not in the list \n");
+    printf("\nThe element %s was remove with sucess...\n", auxname->name);
+    if(*count2 == (*ne)) printf("This elements is not in the list \n");
 }
 void list(){
    if(!(*ne-1)) {
