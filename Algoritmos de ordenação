@@ -1,4 +1,6 @@
 //Escolhendo um pivo médio, troca a posição de 2 números que estão à sua esquerda e direita de forma que fique ordenado
+// Bastante eficiente para grande números de dados
+// Pior caso (n log n)
 void quickSort(int vet[], int left, int right){
     int i, j, tmp;
     i = left;
@@ -29,6 +31,11 @@ void quickSort(int vet[], int left, int right){
     }
 }
 //Seleciona o menor e troca com o indice da vez
+// Sempre o mesmo tempo
+// - Ele é um algoritmo simples de ser implementado em comparação aos demais.
+// - Não necessita de um vetor auxiliar (in-place).
+// - Por não usar um vetor auxiliar para realizar a ordenação, ele ocupa menos memória.
+// - Ele é uns dos mais velozes na ordenação de vetores de tamanhos pequenos.
 void selectionSort(int *vet, int n){
     int min, i, j, tmp, min_ind=0;
     for(i=0; i<(n-1); i++){
@@ -65,7 +72,9 @@ void bubbleSort(int vet[], int n){
         }
     }
 }
-
+// - É o método a ser utilizado quando o arquivo está "quase" ordenado
+// - É um bom método quando se desejar adicionar poucos elementos em um arquivo já ordenado, pois seu custo é linear.
+// - O algoritmo de ordenação por inserção é estável.
 void insertionSort(int vet[], int n){
     int tmp, i, j;
     for(j=1; j<n; j++){
