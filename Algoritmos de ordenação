@@ -27,3 +27,19 @@ void quickSort(int vet[], int left, int right){
         quickSort(vet, i, right);
     }
 }
+void selectionSort(int *vet, int n){
+    int min, i, j, tmp, min_ind=0;
+    for(i=0; i<(n-1); i++){
+        min = vet[i];
+        for(j=i+1; j<n; j++){
+            if(min>vet[j]){
+                min = vet[j];
+                min_ind = j;
+            }
+        }
+        tmp = vet[i];
+        vet[i] = vet[min_ind];
+        vet[min_ind] = tmp;
+        min_ind = i+1;      // Ficar igual a i caso eles sejam iguais
+    }
+}
