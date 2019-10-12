@@ -1,0 +1,163 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+//#include <conio.c>
+
+typedef struct Element{
+    int num;
+    char name[20];
+}  element;
+
+struct pc{
+    int ne, count1, count2;
+};
+// Variáveis globais
+void *pBuffer;
+int *ne, *count1, *count2;
+// Funções
+void appoint();
+void push();
+void pop();
+void list();
+void searchElement();
+void bubblesort();
+
+int main()
+{
+    pBuffer = (void*) malloc(sizeof(struct pc));
+    appoint();
+    *count1 = 1;
+    *ne = 1;
+    
+    while(*count1){
+        printf("\nChoose an option: \n");
+        printf("0. EXIT \n");
+        printf("1. ADD \n");
+        printf("2. REVOME \n");
+        printf("3. LIST \n");
+        printf("4. SEARCH \n");
+        scanf("%d", &(*count1));
+        if(*count1 == 0) break;
+        else if(*count1 == 1) push();
+        else if(*count1 == 2) pop();
+        else if(*count1 == 3) list();
+        else if(*count1 == 4) searchElement();
+        else {
+           // textcolor(1);
+            printf("Invalid value\n");
+        }
+    }
+    bubblesort();
+    list();
+    free(pBuffer);
+    if(pBuffer == NULL){
+        printf("Memoria desalocada");
+    }
+    
+    return 0;
+}
+void appoint(){
+    ne =(int*) pBuffer;
+    count1 = ne + 1;
+    count2 = count1 + 1;
+}
+void push(){
+    *ne += 1;
+    element *p;
+    pBuffer = (void*) realloc(pBuffer, sizeof(struct pc) + (sizeof(element)*(*ne)));
+    appoint();
+    p = (element*) count2 + 1;
+    p = p + (sizeof(element)*(*ne-1));
+    printf("Tell the name: ");
+    scanf("%s", p->name);
+    printf("Tell the number: ");
+    scanf("%d", &(p->num));
+    printf("The element: %s, number: %d was added with sucess...", p->name, p->num);
+}
+void pop(){
+    if(!(*ne-1)) {
+        printf("There's not nothing to remove...\n");
+        return;
+    }
+    element *p1, *p2, *auxname;
+    *ne -= 1;
+    p1 = auxname = p2 = (element*) count2 + 1;
+    p1 = p1 + sizeof(element);
+    p2 = p2 + (sizeof(element)*(*ne)); // Aponta para o ultimo elemento para move-lo para o lugar do elemento retirado
+    printf("Tell the element to remove: ");
+    scanf("%s", auxname->name);
+    
+    for(*count2 = 0; *count2 < (*ne)-1; (*count2)++){
+        if(strcmp(auxname->name, p1->name) == 0){
+            strcpy(p1->name, p2->name);
+            p1->num = p2->num;
+            pBuffer = (void*) realloc(pBuffer, sizeof(struct pc) + (sizeof(element)*(*ne)));
+            appoint();
+            break;
+        }
+        p1 = p1 + sizeof(element);
+    }
+    printf("\nThe element %s was remove with sucess...\n", auxname->name);
+    if(*count2 == (*ne)) printf("This elements is not in the list \n");
+}
+void list(){
+   if(!(*ne-1)) {
+        printf("Empty list...");
+        return;
+    }
+    element *p;
+    p =(element*) count2 + 1;
+    p = p + sizeof(element);  // Não se pode fazer p + 1 quando p é uma struct
+    printf("The elements are: \n");
+    for(*count2 = 0; (*count2) < (*ne)-1; (*count2)++){
+        printf("Name: %s  Number: %d \n", p->name, p->num);
+        p = p + sizeof(element);
+    }
+}
+void searchElement(){
+    if(!(*ne-1)) {
+        printf("The list is Empty...\n");
+        return;
+    }
+    element *p1, *auxname;
+    p1 = auxname = (element*) count2 + 1;
+    p1 = p1 + sizeof(element);
+    printf("Tell the element to search: ");
+    scanf("%s", auxname->name);
+    
+    for(*count2 = 0; *count2 < (*ne)-1; (*count2)++){
+        if(strcmp(auxname->name, p1->name) == 0){
+            printf("The name is: %s and his number is: %d", p1->name, p1->num);
+            break;
+        }
+        p1 = p1 + sizeof(element);
+    }
+    if(*count2 == (*ne)-1) printf("This element is not in the list \n");
+}
+void insertionSort(){
+    int i, j;
+    element *aux, *p1, *p2;
+    aux = p1 = p2 =(element*) count2 + 1;
+        p1 = aux + sizeof(element);
+        p2 = aux = aux + (sizeof(element)*2);
+    
+    for(i=1; i<(*ne)-1; i++){
+        
+        
+        for(j=i-1; j>=0 && (strcpy(p1->name, aux->name))==1; j--){
+            
+                strcpy(p2->name, p1->name);
+                p2->num = p1->num;
+               
+                p1 = p1 - sizeof(element);
+                p2 = p2 - sizeof(element);
+            
+        }
+        p1 = p1 + sizeof(element);
+        strcpy(p1->name, aux->name);
+        p1->num = aux->num;
+        aux = aux + sizeof(element);
+        }
+    }
+}
