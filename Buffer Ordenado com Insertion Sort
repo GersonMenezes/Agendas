@@ -141,16 +141,12 @@ void insertionSort(){
     aux2 = aux = p1 = p2 =(element*) count2 + 1;
     p1 = p2 = aux2 = aux + sizeof(element);
     p2 = aux2 = p1 + sizeof(element);
-    int x;
+
     for(i=1; i<(*ne)-1; i++){
         
         strcpy(aux->name, p2->name);
         aux->num = p2->num;
-        printf("%d Nome aux = %s\n", i, aux->name);
-        printf("%d Nome p1 = %s\n", i, p1->name);
         j = i-1;
-         x = strcmp(p1->name, aux->name);
-        printf("x = ----  %d  ----", x);
         while(j>=0 && strcmp(p1->name, aux->name) > 0){
             
                 strcpy(p2->name, p1->name);
@@ -158,16 +154,12 @@ void insertionSort(){
                
                 p1 = p1 - sizeof(element);
                 p2 = p2 - sizeof(element);
-                printf("test drive");
                 j--;
             
         }
         p1 = p1 + sizeof(element);
-        printf("%d Nome p1 = %s\n", i, p1->name);
-        
         strcpy(p1->name, aux->name);
         p1->num = aux->num;
-        printf("%d Nome p1 = %s\n", i, p1->name);
         aux2 = aux2 + sizeof(element);
         p2 = aux2;
         p1 = aux2 - sizeof(element);
