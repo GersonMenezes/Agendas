@@ -69,8 +69,8 @@ void push(){
     appoint();
     p = (element*) count2 + 1;
     p = p + (sizeof(element)*(*ne-1));
-    //printf("Tell the name: ");
-   // scanf("%s", p->name);
+    printf("Tell the name: ");
+    scanf("%s", p->name);
     printf("Tell the number: ");
     scanf("%d", &(p->num));
     printf("The element: %s, number: %d was added with sucess...", p->name, p->num);
@@ -139,32 +139,32 @@ void quickSort(int left, int right){
     
     int i = left, j = right;
     element *aux, *p1, *p2, *mid;
-    mid = aux = p1 = p2 =(element*) count2 + 1;
+    mid = aux = p1 = p2 = (element*) count2 + 1;
     p1 = p2 = mid = aux + sizeof(element);
     p1 = p1 + (sizeof(element)*i);
     p2 = p2 + (sizeof(element)*j);
     mid = mid + (sizeof(element)*((j+i)/2));
-    printf("Mid: %d", mid->num);
-    printf("Primeiro: %d", p1->num);
-    printf("Ultimo: %d", p2->num);
+    printf("---Mid: %d---\n", mid->num);
+    //printf("Primeiro: %d", p1->num);
+    //printf("Ultimo: %d", p2->num);
     
     do{
         while(p1->num < mid->num){
             i++;
-            p1++;
+            p1 = p1 + sizeof(element);
         }
         while(mid->num < p2->num){
             j--;
-            p2--;
+            p2 = p2 - sizeof(element);
         }
         if(i<=j){
             aux->num = p1->num;
             p1->num = p2->num;
             p2->num = aux->num;
              i++;
-            p1++;
+            p1 = p1 + sizeof(element);
              j--;
-            p2--;
+            p2 = p2 - sizeof(element);
         }
      }while(i<=j);
         
