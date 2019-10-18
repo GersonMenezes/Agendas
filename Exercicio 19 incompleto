@@ -1,0 +1,50 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+void selectionSort(int *vet, int n);
+
+int main()
+{
+    char *vet, *vet2, flag;
+    vet = (char*) malloc(sizeof(char));
+    int size = 20, count = 0;
+    
+    printf("Escreva um novo nome para a lista ou 0 para sair");
+    while(1==1){
+        printf("Diga um nome para adicionar no array: ");
+        vet = (char*) realloc(vet, sizeof(char)*size);
+        vet2 = vet;     // A base do vetor não pode ser perdida para fazer o próximo realloc
+        vet2 = vet2 + (sizeof(char)*(size-20));
+        scanf("%s", vet2);
+        printf("\nO element e: %s\n", vet2);
+        size = size+20;
+        if(strcmp(vet2, "0") == 0)
+            break;
+        count++;
+    }
+    selectionSort(vet, count);
+    return 0;
+}
+
+void selectionSort(int *vet, int n){
+    int i, j, tmp;
+    char min[20], *aux, *vet2 = vet, *atual = vet;
+    
+    for(i=0; i<(n-1); i++){
+        strcpy(min, atual);
+        vet2 = atual;
+        for(j=i+1; j<n; j++){
+            if(strcmp(vet2, min) < 0){
+                strcpy(min, vet2);
+                aux = vet2;
+            }
+            vet2 = vet2 + sizeof(char)*20;
+        }
+        vet2 = vet2 - sizeof(char)*20;
+        strcpy(vet2, atual);
+        strcpy(atual, min);
+        atual = atual + sizeof(char)*20;
+    }
+}
