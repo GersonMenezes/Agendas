@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <string.h>
+
+void quickSort(char *string, int left, int right);
+
+int main(){
+	
+	int x;
+	char string[20];
+	printf("Tell a name: ");
+	scanf("%s", string);
+	x = strlen(string);
+	printf("The name is: %s and its size is: %d\n", string, x);
+	quickSort(string, 0, x-1);
+	printf("\nThe sorted name is: %s and its size: %d", string, x);
+		
+return 0;
+}
+
+void quickSort(char *string, int left, int right){
+    int i, j;
+    i = left;
+    j = right;
+    char mid = string[(i+j)/2];
+    char *p1, *p2, tmp;
+    p1 = p2 = string;
+    p1 = p1 + (sizeof(char)*left);
+    p2 = p2 + (sizeof(char)*right);
+    
+  	do{
+        while(mid>string[i]){
+            i++;
+            p1 = p1 + sizeof(char);
+        }
+        while(mid<string[j]){
+            j--;
+            p2 = p2 - sizeof(char);
+        }
+        if(i<=j){
+            tmp = *p1;
+            *p1 = *p2;
+            *p2 = tmp;
+            i++;
+            p1 = p1 + sizeof(char);
+            j--;
+            p2 = p2 - sizeof(char);
+        }
+        
+   }while(i<=j);
+    if(left<j){
+        quickSort(string, left, j);
+    }
+    if(i<right){
+        quickSort(string, i, right);
+    }
+}
