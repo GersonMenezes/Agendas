@@ -1,0 +1,37 @@
+#include <stdio.h>
+
+const int MAX = 10;
+
+typedef struct Aluno{
+    int num;
+    int name;
+} aluno;
+
+typedef struct Pilha{
+    aluno alunos[MAX];
+    int base;
+    int top;
+    int limite = MAX;
+}pilha;
+
+int main(){
+        
+     pilha pilha1;
+     reset(pilha1);
+     int i = 0, tmp;
+     for(; i == 0;){
+        printf("Diga que desejas colocar na pilha: ");
+        scanf("%d", &tmp);
+        push(pilha, tmp);
+        i = full(pilha1);
+     }
+
+return 0;
+}
+
+voit reset(pilha *p){
+
+    p->base = 0;
+    p->top = 0;
+    p->limite = MAX;
+}
