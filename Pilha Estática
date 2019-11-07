@@ -2,36 +2,97 @@
 
 const int MAX = 10;
 
-typedef struct Aluno{
+struct aluno{
     int num;
     int name;
-} aluno;
+};
 
-typedef struct Pilha{
-    aluno alunos[MAX];
+struct pilha{
+    struct aluno alunos[5];
     int base;
     int top;
-    int limite = MAX;
-}pilha;
+    int limite;
+};
+
+void push(struct pilha *p, int novo);
+int pop(struct pilha *p, struct aluno *item);
+void reset(struct pilha *p);
+int full(struct pilha p);
+int empty(struct pilha p);
+void print(struct pilha *p);
 
 int main(){
         
-     pilha pilha1;
-     reset(pilha1);
+     struct pilha pilha1;
+     reset(&pilha1);
      int i = 0, tmp;
      for(; i == 0;){
         printf("Diga que desejas colocar na pilha: ");
         scanf("%d", &tmp);
-        push(pilha, tmp);
+        push(&pilha1, tmp);
         i = full(pilha1);
      }
+     print(&pilha1);
 
 return 0;
 }
 
-voit reset(pilha *p){
+void reset(struct pilha *p){
 
     p->base = 0;
     p->top = 0;
     p->limite = MAX;
+}
+
+void push(struct pilha *p, int novo){
+    
+    p->top ++;
+    if(full(*p)){
+        printf("Pilha cheia...");
+        return;
+    }
+        
+    p->alunos[(p->top)-1].num = novo;
+    
+}
+
+int pop(struct pilha *p, struct aluno *item){
+    
+    if(empty(*p))
+        return 0;
+    else{
+        *item = p->alunos[p->top];
+        p->top --;
+        return 1;
+    }
+}
+
+void print(struct pilha *p){
+    struct pilha tmpPilha = *p;
+    struct aluno tmpAluno;
+    int x;
+    for(;p->top != 0;){
+        x = pop(&tmpPilha, &tmpAluno);
+        if(x == 1){
+            printf("Elemento: %d", tmpAluno.num);
+        }
+        else 
+            break;
+    }
+}
+
+int full(struct pilha p){
+    printf("\ntop: %d, limite: %d", p.top, p.limite);
+    if(p.top == p.limite)
+        return 1;
+    else 
+        return 0;
+}
+
+int empty(struct pilha p){
+    
+    if(p.top == 0)
+        return 1;
+        
+    return 0;
 }
