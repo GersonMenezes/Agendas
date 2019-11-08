@@ -57,11 +57,12 @@ void push(struct pilha *p, int novo){
 }
 
 int pop(struct pilha *p, struct aluno *item){
-    p->top --;
+    
     if(empty(*p))
         return 0;
     else{
-        *item = p->alunos[p->top];
+        *item = p->alunos[p->top-1];
+        p->top --;
         return 1;
     }
 }
@@ -69,13 +70,12 @@ int pop(struct pilha *p, struct aluno *item){
 void print(struct pilha *p){
     struct pilha tmpPilha = *p;
     struct aluno tmpAluno;
-    int x;
-    for(;p->top >= 0;){
-        x = pop(&tmpPilha, &tmpAluno);
-            printf("\nElemento: %d", tmpAluno.num);
+    int x = 1;
+    while(x!=0){
         
-        if(x == 0)
-            break;
+        x = pop(&tmpPilha, &tmpAluno);
+        if (x!=0)
+            printf("\nElemento: %d", tmpAluno.num);
     }
 }
 
