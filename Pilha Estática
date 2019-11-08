@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-const int MAX = 10;
+const int MAX = 5;
 
 struct aluno{
     int num;
@@ -46,23 +46,22 @@ void reset(struct pilha *p){
 
 void push(struct pilha *p, int novo){
     
-    p->top ++;
     if(full(*p)){
         printf("Pilha cheia...");
         return;
     }
         
-    p->alunos[(p->top)-1].num = novo;
+    p->alunos[(p->top)].num = novo;
+    p->top ++;
     
 }
 
 int pop(struct pilha *p, struct aluno *item){
-    
+    p->top --;
     if(empty(*p))
         return 0;
     else{
         *item = p->alunos[p->top];
-        p->top --;
         return 1;
     }
 }
@@ -71,18 +70,17 @@ void print(struct pilha *p){
     struct pilha tmpPilha = *p;
     struct aluno tmpAluno;
     int x;
-    for(;p->top != 0;){
+    for(;p->top >= 0;){
         x = pop(&tmpPilha, &tmpAluno);
-        if(x == 1){
-            printf("Elemento: %d", tmpAluno.num);
-        }
-        else 
+            printf("\nElemento: %d", tmpAluno.num);
+        
+        if(x == 0)
             break;
     }
 }
 
 int full(struct pilha p){
-    printf("\ntop: %d, limite: %d", p.top, p.limite);
+    
     if(p.top == p.limite)
         return 1;
     else 
