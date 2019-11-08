@@ -27,7 +27,7 @@ int main(){
      reset(&pilha1);
      int i = 0, tmp;
      for(; i == 0;){
-        printf("Diga que desejas colocar na pilha: ");
+        printf("Diga 5 elementos para colocar na pilha: ");
         scanf("%d", &tmp);
         push(&pilha1, tmp);
         i = full(pilha1);
@@ -71,11 +71,12 @@ void print(struct pilha *p){
     struct pilha tmpPilha = *p;
     struct aluno tmpAluno;
     int x = 1;
+    printf("Os elementos sao: ");
     while(x!=0){
         
         x = pop(&tmpPilha, &tmpAluno);
         if (x!=0)
-            printf("\nElemento: %d", tmpAluno.num);
+            printf("\n %d", tmpAluno.num);
     }
 }
 
