@@ -1,6 +1,8 @@
 // Duvidas
-// Como mandar o conteudo de uma struct como argumento
+// Como mandar o conteudo de uma struct como argumento. RESPONDIDO.
+// Como retornar o conteúdo de um ponteiro de struct por atribuição. RESPONDIDO
 // Por que as vezes o typedef não funciona?
+// Quando é feito um malloc ou realloc a memória alocada é sequencial? Se não, como funciona p++?
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -21,6 +23,7 @@ void push(struct pilha *p);
 void pop(struct pilha *p, struct aluno *item);
 void reset(struct pilha *p);
 void printOne(struct pilha p);
+void printAll(struct pilha *p);
 void menu(struct pilha *p);
 
 int main(){
@@ -30,6 +33,7 @@ int main(){
      reset(pilha1);
      int i = 0, tmp;
      menu(pilha1);
+     free(pilha1->alunos);
      free(pilha1);
 
 return 0;
@@ -46,36 +50,43 @@ void menu(struct pilha *p){
     int i = 1;
     struct aluno alunoAux;
     while(i!=0){
-        printf("Choose one of the following options: ");
+    
         printf("\n1. To put a element");
         printf("\n2. To take a element");
         printf("\n3. To show the last element");
         printf("\n4. To show all element");
         printf("\n0. To exit");
+        printf("\nChoose one of the following options: ");
         scanf("%d", &i);
         if(i == 1) push(p);
         else if(i==2){
             pop(p, &alunoAux);
-            printf("The student took is: %d\n", alunoAux.num);
+            printf("\nThe student took is: %d\n", alunoAux.num);
         }
         else if(i==3) printOne(*p);
-       // else if(i==4) printAll();
+        else if(i==4) printAll(p);
         else if(i==0) return;
-        else printf("This Option do not exist");
+        else printf("\nThis Option do not exist\n");
     }
 }
 
 void push(struct pilha *p){
     int novo;
-    printf("Tell the number of the first element: ");
-    scanf("%d", &novo);
     p->count ++;
     
     p->alunos = (struct aluno*) realloc(p->alunos, sizeof(struct aluno)*(p->count));
-      if(!(p->alunos)) printf("No memory available!");
+      if(!(p->alunos)){
+          printf("No memory available!");
+          p->count--;
+          return;
+      }
+      
+    printf("Tell the number of the element: ");
+    scanf("%d", &novo);
     p->top = p->alunos + (sizeof(struct aluno)*((p->count)-1));
     p->base = p->alunos;
     p->top->num = novo;
+    printf("\nThe element %d was add with success\n", novo);
 }
 
 void pop(struct pilha *p, struct aluno *item){
@@ -84,11 +95,12 @@ void pop(struct pilha *p, struct aluno *item){
         printf("Empty stack");
     
     else if(p->top == p->base){
-        item = p->top;
+        *item = *(p->top);
+        p->count --;
         p->top = NULL;
     }
     else{
-        item = p->top;
+        *item = *(p->top);
         p->count --;
         p->alunos = (struct aluno*) realloc(p->alunos, sizeof(struct aluno)*(p->count));
         p->base = p->alunos;
@@ -97,9 +109,25 @@ void pop(struct pilha *p, struct aluno *item){
 }
 
 void printOne(struct pilha p){
-    
-    if(p.top == NULL) printf("Empty stack");
+        
+    if(p.top == NULL) printf("\nEmpty stack\n");
     else{
         printf("The element is: %d\n", p.top->num);
+    }
+}
+
+void printAll(struct pilha *p){
+    
+    if(p->top == NULL){
+         printf("\nEmpty stack\n");
+         return;
+    }
+    int i = p->count;
+    struct aluno *aux = p->top;
+    printf("The elements are: \n");
+    while(i>0){
+        printf("%d\n", aux->num);
+        aux = aux - (sizeof(struct aluno));
+        i--;
     }
 }
