@@ -1,6 +1,9 @@
-#include <stdio.h>
+// Duvidas
+// Como mandar o conteudo de uma struct como argumento
+// Por que as vezes o typedef não funciona?
 
-const int MAX = 5;
+#include <stdio.h>
+#include <stdlib.h>
 
 struct aluno{
     int num;
@@ -8,90 +11,95 @@ struct aluno{
 };
 
 struct pilha{
-    struct aluno alunos[5];
-    int base;
-    int top;
-    int limite;
+    struct aluno *alunos;
+    struct aluno *base;
+    struct aluno *top;
+    int count;
 };
 
-void push(struct pilha *p, int novo);
-int pop(struct pilha *p, struct aluno *item);
+void push(struct pilha *p);
+void pop(struct pilha *p, struct aluno *item);
 void reset(struct pilha *p);
-int full(struct pilha p);
-int empty(struct pilha p);
-void print(struct pilha *p);
+void printOne(struct pilha p);
+void menu(struct pilha *p);
 
 int main(){
         
-     struct pilha pilha1;
-     reset(&pilha1);
+     struct pilha *pilha1;
+     pilha1 = (struct pilha*) malloc(sizeof(struct pilha));
+     reset(pilha1);
      int i = 0, tmp;
-     for(; i == 0;){
-        printf("Diga 5 elementos para colocar na pilha: ");
-        scanf("%d", &tmp);
-        push(&pilha1, tmp);
-        i = full(pilha1);
-     }
-     print(&pilha1);
+     menu(pilha1);
+     free(pilha1);
 
 return 0;
 }
 
 void reset(struct pilha *p){
-
-    p->base = 0;
-    p->top = 0;
-    p->limite = MAX;
+    p->alunos = NULL;
+    p->base = NULL;
+    p->top = NULL;
+    p->count = 0;
 }
 
-void push(struct pilha *p, int novo){
-    
-    if(full(*p)){
-        printf("Pilha cheia...");
-        return;
+void menu(struct pilha *p){
+    int i = 1;
+    struct aluno alunoAux;
+    while(i!=0){
+        printf("Choose one of the following options: ");
+        printf("\n1. To put a element");
+        printf("\n2. To take a element");
+        printf("\n3. To show the last element");
+        printf("\n4. To show all element");
+        printf("\n0. To exit");
+        scanf("%d", &i);
+        if(i == 1) push(p);
+        else if(i==2){
+            pop(p, &alunoAux);
+            printf("The student took is: %d\n", alunoAux.num);
+        }
+        else if(i==3) printOne(*p);
+       // else if(i==4) printAll();
+        else if(i==0) return;
+        else printf("This Option do not exist");
     }
-        
-    p->alunos[(p->top)].num = novo;
-    p->top ++;
-    
 }
 
-int pop(struct pilha *p, struct aluno *item){
+void push(struct pilha *p){
+    int novo;
+    printf("Tell the number of the first element: ");
+    scanf("%d", &novo);
+    p->count ++;
     
-    if(empty(*p))
-        return 0;
+    p->alunos = (struct aluno*) realloc(p->alunos, sizeof(struct aluno)*(p->count));
+      if(!(p->alunos)) printf("No memory available!");
+    p->top = p->alunos + (sizeof(struct aluno)*((p->count)-1));
+    p->base = p->alunos;
+    p->top->num = novo;
+}
+
+void pop(struct pilha *p, struct aluno *item){
+    
+    if(p->top == NULL)
+        printf("Empty stack");
+    
+    else if(p->top == p->base){
+        item = p->top;
+        p->top = NULL;
+    }
     else{
-        *item = p->alunos[p->top-1];
-        p->top --;
-        return 1;
+        item = p->top;
+        p->count --;
+        p->alunos = (struct aluno*) realloc(p->alunos, sizeof(struct aluno)*(p->count));
+        p->base = p->alunos;
+        p->top = p->alunos + (sizeof(struct aluno)*(p->count));
     }
 }
 
-void print(struct pilha *p){
-    struct pilha tmpPilha = *p;
-    struct aluno tmpAluno;
-    int x = 1;
-    printf("Os elementos sao: ");
-    while(x!=0){
-        
-        x = pop(&tmpPilha, &tmpAluno);
-        if (x!=0)
-            printf("\n %d", tmpAluno.num);
+void printOne(struct pilha p){
+    
+    if(p.top == NULL) printf("Empty stack");
+    else{
+        printf("The element is: %d\n", p.top->num);
     }
-}
-
-int full(struct pilha p){
-    
-    if(p.top == p.limite)
-        return 1;
-    else 
-        return 0;
-}
-
-int empty(struct pilha p){
-    
-    if(p.top == 0)
-        return 1;
-        
-    return 0;
 }
