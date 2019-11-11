@@ -104,7 +104,7 @@ void pop(struct pilha *p, struct aluno *item){
         p->count --;
         p->alunos = (struct aluno*) realloc(p->alunos, sizeof(struct aluno)*(p->count));
         p->base = p->alunos;
-        p->top = p->alunos + (sizeof(struct aluno)*(p->count));
+        p->top = p->alunos + (sizeof(struct aluno)*((p->count)-1));
     }
 }
 
@@ -112,7 +112,7 @@ void printOne(struct pilha p){
         
     if(p.top == NULL) printf("\nEmpty stack\n");
     else{
-        printf("The element is: %d\n", p.top->num);
+        printf("\nThe last element is: %d\n", p.top->num);
     }
 }
 
