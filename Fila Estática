@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 
 struct Fila{
@@ -14,7 +13,6 @@ void print(struct Fila *f);
 int main()
 {
     struct Fila fila;
-    printf("Bug 1: %d", fila.count);
     fila.count = 0;
     menu(&fila);
     
@@ -24,7 +22,7 @@ int main()
 void menu(struct Fila *f){
     int x=1, y;
     while(x!=0){
-        printf("0. Exit\n");
+        printf("\n0. Exit\n");
         printf("1. Push\n");
         printf("2. Pop\n");
         printf("3. List\n");
@@ -50,8 +48,8 @@ void push(struct Fila *f){
     }
     else{
         printf("\nTell the number to add: \n");
-        scanf("%d", &(f->pessoa[0]));
-        printf("Bug 2: %d", f->count);
+        scanf("%d", &(f->pessoa[f->count]));
+        //printf("Bug 2: %d\n", f->count);
         f->count++;
     }
 }
@@ -74,9 +72,10 @@ int pop(struct Fila *f){
 }
 
 void print(struct Fila *f){
-    int x = f->count;
+    int x = (f->count)-1;
     printf("\nThe elements are: \n");
-    while(x>0){
-        printf("f->pessoa[f->count]\n");
+    while(x>=0){
+        printf("%d\n", f->pessoa[x]);
+        x--;
     }
 }
