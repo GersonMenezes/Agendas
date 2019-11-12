@@ -1,0 +1,82 @@
+
+#include <stdio.h>
+
+struct Fila{
+    int pessoa[5];
+    int count;
+};
+
+void menu(struct Fila *f);
+void push(struct Fila *f);
+int pop(struct Fila *f);
+void print(struct Fila *f);
+
+int main()
+{
+    struct Fila fila;
+    printf("Bug 1: %d", fila.count);
+    fila.count = 0;
+    menu(&fila);
+    
+    return 0;
+}
+
+void menu(struct Fila *f){
+    int x=1, y;
+    while(x!=0){
+        printf("0. Exit\n");
+        printf("1. Push\n");
+        printf("2. Pop\n");
+        printf("3. List\n");
+        printf("Choose one of the options\n");
+        scanf("%d", &x);
+        if(x==0) return;
+        else if(x==1) push((f));
+        else if(x==2){
+            y = pop((f));
+            if(y == -1) printf("\nEmpty fila\n");
+            else printf("\nThe element is %d\n", y);
+        }
+        else if(x==3) print((f));
+        else
+            printf("\nOption do not exist... Try again... ;-)\n");
+    }
+}
+
+void push(struct Fila *f){
+    if(f->count == 5){
+        printf("\nFull fila...\n");
+        return;
+    }
+    else{
+        printf("\nTell the number to add: \n");
+        scanf("%d", &(f->pessoa[0]));
+        printf("Bug 2: %d", f->count);
+        f->count++;
+    }
+}
+
+int pop(struct Fila *f){
+    int tmp = f->pessoa[0];
+    if(f->count == 0){
+        return -1;
+    }
+    else{
+        int x = 0;
+        f->count --;
+        while(x<(f->count)){
+            f->pessoa[x]=f->pessoa[x+1];
+            x++;
+        }
+    }
+    return tmp;
+    
+}
+
+void print(struct Fila *f){
+    int x = f->count;
+    printf("\nThe elements are: \n");
+    while(x>0){
+        printf("f->pessoa[f->count]\n");
+    }
+}
