@@ -1,0 +1,113 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct NFila{
+    int inf;
+    struct NFila *next;
+};
+
+struct HFila{
+    struct NFila *first;
+    struct NFila *last;
+};
+
+void menu(struct HFila *f);
+void push(struct HFila *f);
+void pop(struct HFila *f, int *item);
+void print(struct HFila *f);
+void reset(struct HFila *f);
+
+int main(){
+    struct HFila *fila;
+    fila = (struct HFila*) malloc(sizeof(struct HFila));
+    reset(fila);
+    menu(fila);
+    
+    return 0;
+}
+
+void reset(struct HFila *f){
+    f->first = NULL;
+    f->last = NULL;
+}
+
+void menu(struct HFila *f){
+    int x=1;
+    while(x!=0){
+        printf("\n0. Exit\n");
+        printf("1. Push\n");
+        printf("2. Pop\n");
+        printf("3. List\n");
+        printf("Choose one of the options\n");
+        scanf("%d", &x);
+        if(x==0) return;
+        else if(x==1) push(f);
+        else if(x==2){
+            int item;
+            pop(f, &item);
+            if(f->first != NULL) printf("\nThe element caught is %d\n", item);
+        }
+        else if(x==3) print((f));
+        else
+            printf("\nOption do not exist... Try again... ;-)\n");
+    }
+}
+
+void push(struct HFila *f){
+    struct NFila *novo;
+    novo = (struct NFila*) malloc (sizeof(struct NFila));
+        if(!novo) {
+            printf("Erro de alocacao");
+            return;
+        }
+    novo->next = NULL;
+    printf("Diga o novo elemento: ");
+    scanf("%d", &(novo->inf));
+    
+    if(f->first == NULL){
+        printf("here...\n");
+        f->first = novo;
+    }
+    else{
+        f->last->next = novo;
+    }
+    f->last = novo;
+}
+
+void pop(struct HFila *f, int *item){
+    
+    if(f->first == NULL){
+        printf("\nEmpty row\n");
+        return;
+    }
+    
+    struct NFila *tmp;
+    *item = f->first->inf;
+    tmp = f->first;
+    
+    if(f->first->next == NULL){
+        
+        f->first = NULL;
+        f->last = NULL;
+    }
+    else{
+    
+      f->first = f->first->next;
+    }
+    free(tmp);
+}
+
+void print(struct HFila *f){
+    struct NFila *tmp;
+    
+    if(f->first == NULL){
+        printf("Empty file...");
+    }
+    else{
+        printf("\nThe elements are: \n");
+    
+        for(tmp = f->first; tmp != NULL; tmp = tmp->next){
+            printf("%d\n", tmp->inf);
+        }
+    }
+}
