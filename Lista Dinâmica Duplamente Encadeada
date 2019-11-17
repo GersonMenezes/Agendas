@@ -1,0 +1,155 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct Node{
+    int name;
+    struct Node *next;
+    struct Node *prev;
+};
+typedef struct Node node;
+
+void menu(int *x);
+int option(node *list, int opt);
+void add(node *list);
+void remov(node *list);
+void release(node *list);
+void display(node *list);
+void displayGoAndReturn(node *list);
+
+int main (){
+
+    node *list =(node*) malloc(sizeof(node));
+    if(!list){
+        printf("No memory available");
+        exit(1);
+    }
+    list->next = NULL;
+    list->prev = NULL;
+    int x=1, opt = 0;
+    while(x!=0){
+        menu(&opt);
+        x = option(list, opt);
+    }
+    printf ("Hello world");
+    release(list);
+
+return 0;
+}
+void menu(int *opt){
+    printf("0. Exit\n");
+    printf("1. Add\n");
+    printf("2. Remove\n");
+    printf("3. Show all\n");
+    printf("4. Go and Return list\n");
+    printf("Choose an option: ");
+    scanf("%d", &(*opt));
+}
+int option(node *list, int opt){
+    
+    switch (opt){
+        case 0:
+            return 0;
+            break;
+        case 1:
+            add(list);
+            break;
+        case 2:
+            remov(list);
+            break;
+        case 3:
+            display(list);
+            break;
+        case 4:
+            displayGoAndReturn(list);
+            break;
+        default:
+            printf("Invalid option\n");
+            break;
+    }
+    return 1;
+}
+void add(node *list){
+    node *new = (node*) malloc(sizeof(node));
+        if(!new){
+            printf("No memory available\n");
+            exit(1);
+        }
+    printf("Diga o numero: "); 
+    scanf("%d", &(new->name));
+    if(list->next == NULL){
+        node *tmp = list->next;
+        list->next = new;
+        new->next = tmp;
+        new->prev = list;
+    }
+    else{
+        node *tmp = list->next;
+        list->next = new;
+        new->next = tmp;
+        new->prev = list;
+        new->next->prev = new;
+    }
+    printf("\nThe person: %d was Add with sucess\n\n", new->name);
+}
+void remov(node *list){
+    if(list->next == NULL) printf("Empty list\n\n");
+    
+    else{
+        int rname;
+        printf("Tell the name to remove: ");
+        scanf("%d", &rname);
+        node *tmp = list;
+        node *tmp2;
+        
+         while(tmp->next != NULL){
+            if(tmp->next->name == rname){
+                tmp2 = tmp->next->next;
+                free(tmp->next);
+                tmp->next = tmp2;
+                if(tmp2 != NULL)
+                    tmp2->prev = tmp;
+                break;
+            }
+            else tmp = tmp->next;
+        }
+    }
+}
+void release(node *list){
+    node *tmp = list->next;
+    node *tmp2;
+         while(tmp != NULL){
+                tmp2 = tmp->next;
+                free(tmp);
+                tmp = tmp2;
+            }
+}
+void display(node *list){
+    if(list->next == NULL){
+         printf("Empty list\n\n");
+         return;
+    }
+    node *tmp = list->next;
+         while(tmp != NULL){
+                printf("%d...\n\n", tmp->name);
+                tmp = tmp->next;
+            }
+}
+void displayGoAndReturn(node *list){
+    if(list->next == NULL){
+         printf("\nEmpty list\n\n");
+         return;
+    }
+    printf("\n");
+    node *tmp = list;
+        while(tmp->next != NULL){
+            printf("%d...\n", tmp->next->name);
+            tmp = tmp->next;
+            }
+        printf("Returning list...\n");
+        while(tmp->prev != NULL){
+            printf("%d...\n", tmp->name);
+            tmp = tmp->prev;
+        }
+        printf("\n");
+}
