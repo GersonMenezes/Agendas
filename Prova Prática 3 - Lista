@@ -1,0 +1,128 @@
+//AED1 - Monitoria
+//Eduardo Dias da Silva
+//Tarefa PrÃ¡tica
+//Lista
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct node{
+	char name[31];
+	struct node *next;
+};
+
+struct node *newNode();
+void printList(struct node *head);
+void insertInOrder(struct node *head, char *name);
+void delete(struct node *head, char *name);
+int isEmpty(struct node *head);
+
+int main(){
+	struct node *head = newNode();
+	head->next = NULL;
+	int option;
+	char name[31];
+	
+	do{
+		printf("1 - Insert\n2 - Delete\n3 - Print List\n0 - Exit\n");
+		scanf("%d", &option);
+		getchar();
+		
+		switch(option){
+			case 1:
+				printf("Name: ");
+				fgets(name, 31, stdin);
+				//scanf("%s", word);
+				insertInOrder(head, name);
+				printf("\n");
+				break;
+				
+			case 2:
+				if(isEmpty(head)){
+					printf("Lista vazia\n\n");
+				}
+				else{
+					printf("Name: ");
+					fgets(name, 31, stdin);
+					//scanf("%s", word);
+					delete(head, name);
+				}
+				
+				break;
+			
+			case 3:
+				printList(head);
+				break;
+				
+			default:
+				break;
+		}
+		
+	} while(option != 0);
+	
+	free(head);
+	return 0;
+}
+
+
+
+//VOCÃŠS DEVEM COMPLETAR ESTA FUNÃ‡ÃƒO
+void insertInOrder(struct node *head, char *name){
+	
+	struct node *tmp;
+	struct node *tmp2;
+	struct node *novo = (struct node*) malloc(sizeof(struct node));
+	
+	if(head->next == NULL){
+		strcpy(novo->name, name);
+		head->next = novo;
+		novo = NULL;
+	}
+	for(tmp = head->next; tmp != NULL; tmp = tmp->next){
+		if(strcmp(tmp->name, name) < 1){
+			strcpy(novo->name, name);
+			tmp2 = tmp->next;
+			tmp->next = novo;
+			novo->next = tmp2;
+			return;
+		}		
+	}
+	strcpy(novo->name, name);
+	tmp2 = tmp->next;
+	tmp->next = novo;
+	novo->next = tmp2;	
+}
+
+//VOCÃŠS DEVEM COMPLETAR ESTA FUNÃ‡ÃƒO
+void delete(struct node *head, char *name){
+	
+}
+
+int isEmpty(struct node *head){
+	if(head->next == NULL)
+		return 1;
+	else return 0;
+}
+
+void printList(struct node *head){
+	if(head->next == NULL){
+		printf("Lista vazia\n\n");
+		return;
+	}
+	
+	struct node *printer = head->next;
+	
+	printf("StormTroopers:\n");
+	while(printer != NULL){
+		printf("\t%s", printer->name);
+		printer = printer->next;
+	}
+	
+	printf("\n");
+}
+
+struct node *newNode(){
+	struct node *new = malloc (sizeof (struct node));
+	return new;
+}
