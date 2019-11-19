@@ -1,8 +1,3 @@
-//AED1 - Monitoria
-//Eduardo Dias da Silva
-//Tarefa PrÃ¡tica
-//Lista
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -70,28 +65,32 @@ int main(){
 //VOCÃŠS DEVEM COMPLETAR ESTA FUNÃ‡ÃƒO
 void insertInOrder(struct node *head, char *name){
 	
-	struct node *tmp;
-	struct node *tmp2;
+	struct node *tmp = head->next;
+	struct node *tmp2 = head->next;
 	struct node *novo = (struct node*) malloc(sizeof(struct node));
+	
 	
 	if(head->next == NULL){
 		strcpy(novo->name, name);
 		head->next = novo;
-		novo = NULL;
+		novo->next = NULL;
+		return;
 	}
-	for(tmp = head->next; tmp != NULL; tmp = tmp->next){
-		if(strcmp(tmp->name, name) < 1){
-			strcpy(novo->name, name);
-			tmp2 = tmp->next;
-			tmp->next = novo;
-			novo->next = tmp2;
-			return;
-		}		
+	
+	for(; tmp != NULL;){
+		if(strcmp(tmp->name, name) > 0){
+		     tmp = tmp->next;
+		}	
 	}
-	strcpy(novo->name, name);
-	tmp2 = tmp->next;
-	tmp->next = novo;
-	novo->next = tmp2;	
+	
+		strcpy(novo->name, name);
+		tmp2 = tmp->next;
+		tmp->next = novo;
+		novo->next = tmp2;
+	/*strcpy(novo->name, name);
+	tmp = head->next;
+	head->next = novo;
+	novo->next = tmp;*/	
 }
 
 //VOCÃŠS DEVEM COMPLETAR ESTA FUNÃ‡ÃƒO
