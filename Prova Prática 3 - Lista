@@ -65,8 +65,8 @@ int main(){
 //VOCÃŠS DEVEM COMPLETAR ESTA FUNÃ‡ÃƒO
 void insertInOrder(struct node *head, char *name){
 	
-	struct node *tmp = head->next;
-	struct node *tmp2 = head->next;
+	struct node *tmp = head;
+	struct node *tmp2;
 	struct node *novo = (struct node*) malloc(sizeof(struct node));
 	
 	
@@ -76,26 +76,41 @@ void insertInOrder(struct node *head, char *name){
 		novo->next = NULL;
 		return;
 	}
+	do{
+	   if(strcmp(tmp->next->name, name) < 0){
+		tmp = tmp->next;
+		}
+		else
+	    	break;
+	}while(tmp->next != NULL);
 	
-	for(; tmp != NULL;){
-		if(strcmp(tmp->name, name) > 0){
-		     tmp = tmp->next;
-		}	
-	}
 	
 		strcpy(novo->name, name);
 		tmp2 = tmp->next;
 		tmp->next = novo;
 		novo->next = tmp2;
-	/*strcpy(novo->name, name);
-	tmp = head->next;
-	head->next = novo;
-	novo->next = tmp;*/	
 }
 
 //VOCÃŠS DEVEM COMPLETAR ESTA FUNÃ‡ÃƒO
 void delete(struct node *head, char *name){
 	
+	struct node *tmp = head;
+	struct node *tmp2;
+	
+	if(isEmpty(head)){
+        printf("Empty list");
+	}
+	do{
+	   if(strcmp(tmp->next->name, name) == 0){
+		tmp2 = tmp->next->next;
+		free(tmp->next);
+		tmp->next = tmp2;
+		return;
+		}
+		tmp=tmp->next;
+	}while(tmp->next != NULL);
+		
+    printf("\nElement not found\n\n");
 }
 
 int isEmpty(struct node *head){
@@ -125,3 +140,4 @@ struct node *newNode(){
 	struct node *new = malloc (sizeof (struct node));
 	return new;
 }
+
