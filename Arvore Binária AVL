@@ -1,0 +1,68 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct regi{
+	int chave;
+}reg;
+
+typedef struct node no;
+
+struct node{
+	reg inf;
+	no *left, *right;
+};
+
+void menu(no **head);
+void insert(no **head, reg item);
+
+int main(){
+	no *head;
+	head = NULL;
+	menu(&head);
+	
+	return 0;
+}
+
+void menu(no **head){
+	
+	int x = 0;
+	reg item;
+	printf("0.Sair\n1.Add\n2.Remove\n3.Search\n4.Print all\n");
+	printf("Choose an option: ");
+	scanf("%d", &x);
+	
+	while(1){
+	
+		switch(x){
+			case 0:
+				return;
+			case 1:
+				printf("Diga a chave do novo item: ");
+				scanf("%d", &(item.chave));
+				insert(head, item);
+				break;
+			default:
+				printf("\nWrong option, choose again...\n");
+		}
+	}
+}
+
+void insert(no **p, reg item){
+	
+	no *new = (no*) malloc(sizeof(no));
+	if(*node == NULL){
+		*p = new;
+		new->inf = item;
+		new->next = NULL;
+		new->left = NULL;
+		return;
+	}
+	if((*p)->inf.chave < item.chave){
+		insere((p)->right, item);
+		return;
+	}
+	if((*p)->inf.chave > item.chave){
+		insere(p->left, item);
+		return;
+	}
+}
